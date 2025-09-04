@@ -1,0 +1,88 @@
+# Workspace configuration for MachineTypes module
+name: machinetypes
+version: 0.1.0
+description: A comprehensive module for machine learning data types and utilities
+author: PlazmaDevelopment
+email: plazmadevacc@gmail.com
+license: MIT
+
+# Project structure
+structure:
+  source_dir: .
+  test_dir: tests
+  docs_dir: docs
+  examples_dir: examples
+
+# Build configuration
+build:
+  package_name: machinetypes
+  python_requires: '>=3.7'
+  include_package_data: true
+  package_data:
+    '': ['*.json', '*.yaml', '*.yml']
+
+# Dependencies
+dependencies:
+  - numpy>=1.19.0
+  - scipy>=1.5.0
+  - typing-extensions>=3.7.4
+
+dev_dependencies:
+  - pytest>=6.0
+  - pytest-cov>=2.0
+  - black>=21.5b2
+  - isort>=5.8.0
+  - mypy>=0.812
+  - flake8>=3.9.0
+  - sphinx>=4.0.0
+  - sphinx-rtd-theme>=0.5.0
+  - matplotlib>=3.3.0
+  - jupyter>=1.0.0
+
+# Documentation
+docs:
+  build_command: sphinx-build -b html docs/source docs/build
+  source_dir: docs/source
+  build_dir: docs/build
+  requirements:
+    - sphinx>=4.0.0
+    - sphinx-rtd-theme>=0.5.0
+    - myst-parser>=0.15.0
+
+# Testing
+test:
+  command: pytest tests/ -v --cov=machinetypes --cov-report=term-missing
+  coverage:
+    report: term-missing
+    fail_under: 80
+  test_files:
+    - tests/test_tensor.py
+    - tests/test_layers.py
+    - tests/test_optimizers.py
+    - tests/test_losses.py
+    - tests/test_metrics.py
+
+# Release configuration
+release:
+  build_command: python -m build
+  publish_command: python -m twine upload dist/*
+  version_files:
+    - pyproject.toml
+    - machinetypes/__init__.py
+
+# Development tools
+tools:
+  formatter: black
+  linter: flake8
+  type_checker: mypy
+  test_runner: pytest
+
+# Continuous Integration
+ci:
+  github_actions:
+    python_versions: ["3.7", "3.8", "3.9", "3.10"]
+    os: [ubuntu-latest, windows-latest, macos-latest]
+    test_commands:
+      - python -m pytest tests/
+      - mypy machinetypes/
+      - flake8 machinetypes/
